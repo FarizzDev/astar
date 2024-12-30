@@ -1,5 +1,9 @@
-Label
+Node2D
 TextureRect
+CollisionShape2D
+RigidBody2D
 ColorRect
+StaticBody2D
+Label
 Control
 CanvasLayer
