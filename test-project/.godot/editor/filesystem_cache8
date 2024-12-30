@@ -1,5 +1,8 @@
 2a60927148abd1d33b818b535e306557
-::res://::1735543314
-export_presets.cfg::TextFile::-1::1735549887::0::1::::<><>::
+::res://::1735553748
+default_env.tres::Environment::2734279983892031381::1735552669::0::1::::<><>::
+export_presets.cfg::TextFile::-1::1735552580::0::1::::<><>::
 gui.tscn::PackedScene::743490319034808322::1735542013::0::1::::<><>::uid://c4jweq4t8jrj0::::res://icon.svg
+icon.png::CompressedTexture2D::2941418372226061502::1729717607::1735553799::1::::<><>::
 icon.svg::CompressedTexture2D::6828241035772837255::1735541553::1735541574::1::::<><>::
+::res://scenes/::1735553723
