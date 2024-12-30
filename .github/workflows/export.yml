@@ -54,12 +54,12 @@ jobs:
         echo "GODOT_URL=https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip" >> $GITHUB_ENV
         echo "TEMPLATES_URL=https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz" >> $GITHUB_ENV
         echo "VERSION=4.3.stable" >> $GITHUB_ENV
-        echo "GODOT_ANDROID_KEYSTORE_DEBUG_PATH=test-export/debug.keystore" >> $GITHUB_ENV
-        echo "GODOT_ANDROID_KEYSTORE_RELEASE_PATH=test-export/release.keystore" >> $GITHUB_ENV
+        echo "GODOT_ANDROID_KEYSTORE_DEBUG_PATH=./test-export/debug.keystore" >> $GITHUB_ENV
+        echo "GODOT_ANDROID_KEYSTORE_RELEASE_PATH=./test-export/release.keystore" >> $GITHUB_ENV
         echo "GODOT_ANDROID_KEYSTORE_RELEASE_USER=${{ env.USER }}" >> $GITHUB_ENV
         echo "GODOT_ANDROID_KEYSTORE_DEBUG_USER=${{ env.USER }}" >> $GITHUB_ENV
         echo "GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=${{ env.KEYPASS }}" >> $GITHUB_ENV
-        echo "GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=${{ env.DEBUG }}" >> $GITHUB_ENV
+        echo "GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD=${{ env.KEYPASS }}" >> $GITHUB_ENV
 
     - name: Download Godot Export Templates
       run: |
