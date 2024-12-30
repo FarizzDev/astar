@@ -1,12 +1,12 @@
 2a60927148abd1d33b818b535e306557
-::res://::1735562921
+::res://::1735564345
 default_env.tres::Environment::2734279983892031381::1735552669::0::1::::<><>::
-export_presets.cfg::TextFile::-1::1735552580::0::1::::<><>::
+export_presets.cfg::TextFile::-1::1735564344::0::1::::<><>::
 icon.png::CompressedTexture2D::2941418372226061502::1729717607::1735553799::1::::<><>::
-settingup.gd::GDScript::-1::1735563908::0::1::::<>Node<>::
-::res://scenes/::1735563867
+::res://scenes/::1735566500
 ball.tscn::PackedScene::8066441903511794440::1735563159::0::1::::<><>::res://scripts/circle.gd
 gui.tscn::PackedScene::743490319034808322::1735542013::0::1::::<><>::uid://bh53y34ddiafe::::res://icon.png
 scene_1.tscn::PackedScene::5698054668342271119::1735563214::0::1::::<><>::uid://dm6pecj5pcf1a::::res://scenes/ball.tscn
-::res://scripts/::1735563866
+::res://scripts/::1735564280
 circle.gd::GDScript::-1::1735562939::0::1::::<>RigidBody2D<>::
+settingup.gd::GDScript::-1::1735563908::0::1::::<>Node<>::
