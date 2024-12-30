@@ -68,9 +68,9 @@ func clear_path() -> void:
 
 
 func find_path(local_start_point: Vector2i, local_end_point: Vector2i) -> PackedVector2Array:
-	cear_path()
+	clear_path()
 
-	_start_point = lcal_to_map(local_start_point)
+	_start_point = local_to_map(local_start_point)
 	_end_point = local_to_map(local_end_point)
 	_path = _astar.get_point_path(_start_point, _end_point)
 
