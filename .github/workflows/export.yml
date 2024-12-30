@@ -98,6 +98,9 @@ jobs:
 
     - name: Export
       run: |
+        echo ---
+        ls -a
+        echo ---
         mkdir -p export
         EXT=${{ fromJSON(env.EXTS)[env.PLATFORM] || '.zip' }}
         echo "EXT=${EXT}" >> $GITHUB_ENV
