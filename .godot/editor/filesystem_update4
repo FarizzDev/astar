@@ -1,0 +1,3 @@
+res://game.tscn
+res://tileset/tileset.tres
+res://pathfind_astar.gd

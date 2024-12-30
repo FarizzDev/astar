@@ -1,0 +1,15 @@
+2a60927148abd1d33b818b535e306557
+::res://::1733019398
+character.gd::GDScript::-1::1731554764::0::1::::<>Node2D<><><>::
+export_presets.cfg::TextFile::-1::1733013426::0::1::::<><><><>::
+game.tscn::PackedScene::1768986849745668317::1731554764::0::1::::<><><><>::uid://baj4xukvf568b::::res://sprites/space.png<>uid://f3wmg8detyai::::res://tileset/tileset.tres<>res://pathfind_astar.gd<>res://character.gd<>uid://bjsmfha28ro00::::res://sprites/sparkle.png<>uid://vsempfpeu7wr::::res://sprites/character.png
+icon.webp::CompressedTexture2D::4859145719176482736::1731554764::1731554764::1::::<><><>32c2adebc6c56444db67ef08d410816e<>res://.godot/imported/icon.webp-e94f9a68b0f625a567a797079e4d325f.ctex::
+pathfind_astar.gd::GDScript::-1::1731554764::0::1::::<>TileMap<><><>::
+README.md::TextFile::-1::1731554764::0::1::::<><><><>::
+::res://sprites/::1733013086
+character.png::CompressedTexture2D::1511389609731655421::1731554764::1731554764::1::::<><><>90739f43cd6c7650a8ebbe2a63b30681<>res://.godot/imported/character.png-eb70ac48a5acf508c4b7740ea4ac4fae.ctex::
+space.png::CompressedTexture2D::2406803016406767807::1731554764::1731554764::1::::<><><>2496ce2b9ae5ea40e171b1658edbebb5<>res://.godot/imported/space.png-97c58c64ad84df3792f6a98aa7f4b875.ctex::
+sparkle.png::CompressedTexture2D::3056016977826182299::1731554764::1731554764::1::::<><><>10f655563da0e54794eaf5dbe88587a0<>res://.godot/imported/sparkle.png-3b8036349814d91f8265031bd47464fc.ctex::
+::res://tileset/::1733013090
+tileset.tres::TileSet::410104364932629344::1731554764::0::1::::<><><><>::uid://c11typow28mkc::::res://tileset/tilesheet.png
+tilesheet.png::CompressedTexture2D::6652622416011364222::1731554764::1731554764::1::::<><><>fe994b9579a7c5ffd9082d27f8c2cb18<>res://.godot/imported/tilesheet.png-da5dd43877b555026e31608aeb142d6c.ctex::

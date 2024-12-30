@@ -1,0 +1,113 @@
+name: Export Godot Project
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        required: true
+        default: "Android"
+        description: "Enter platform:"
+        type: choice
+        options:
+          - "Android"
+          - "iOS"
+          - "Web"
+          - "UWP"
+          - "Windows Desktop"
+          - "Linux"
+          - "macOS"
+      version:
+        required: true
+        description: "Godot 4"
+        type: boolean
+      filename:
+        required: true
+        description: "Enter file name:"
+        pattern: "^[a-zA-Z0-9_]+$"
+      user:
+        description: "Enter user (Only for Android):"
+      storepass:
+        description: "Enter keystore (min 6 char, no spaces, must include letters, and numbers. Only for Android):"
+        pattern: '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$'
+      keypass:
+        description: "Enter keypass (min 6 char, no spaces, must include letters, and numbers. Only for Android):"
+        pattern: '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$'
+        
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PLATFORM: ${{ inputs.platform }}
+      STOREPASS: ${{ inputs.storepass }}
+      KEYPASS: ${{ inputs.keypass }}
+      USER: ${{ inputs.user }}
+      FILENAME: ${{ inputs.filename }}
+      EXTS: '{"Android": ".apk", "Windows Desktop": ".exe", "macOS": ".dmg", "Linux": ".x86_64", "UWP": ".appx"}'
+ 
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Preaparing
+      run: |
+        echo "GODOT_URL=https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip" >> $GITHUB_ENV
+        echo "TEMPLATES_URL=https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz" >> $GITHUB_ENV
+        echo "VERSION=4.3.stable" >> $GITHUB_ENV
+
+    - name: Download Godot Export Templates
+      run: |
+        curl -L $TEMPLATES_URL -o godot-templates.tpz
+
+    - name: Extract Godot Export Templates
+      run: |
+        mkdir -p ~/.local/share/godot/export_templates/$VERSION
+        unzip godot-templates.tpz -d ~/godot-templates
+        mv ~/godot-templates/templates/* ~/.local/share/godot/export_templates/$VERSION/
+        rm -rf ~/godot-templates
+
+    - name: Download and Install Godot
+      run: |
+        wget $GODOT_URL -O godot.zip
+        unzip godot.zip
+        sudo mv Godot_* /usr/local/bin/godot
+        chmod +x /usr/local/bin/godot
+
+    - name: Set up JDK 17 (Only for Android)
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Set up Android SDK (Only for Android)
+      if: ${{ env.PLATFORM == 'Android' }}
+      uses: android-actions/setup-android@v3
+
+    - name: Install additional package
+      if: ${{ env.PLATFORM == 'Android' }}
+      run: |
+        sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "build-tools;34.0.0" "platforms;android-34" "cmdline-tools;latest" "cmake;3.10.2.4988404" "ndk;23.2.8568313"
+      env:
+        ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
+
+    - name: Generate Keystore (Only for Android)
+      if: ${{ env.PLATFORM == 'Android' }}
+      run: |
+        keytool -genkey -v -keystore debug.keystore -alias ${{ env.USER }} -keyalg RSA -keysize 2048 -validity 10000 -storepass ${{ env.STOREPASS }} -keypass ${{ env.KEYPASS }} -dname "CN=Android Export,O=Android,C=US"
+        keytool -genkey -v -keystore release.keystore -alias yourreleaseuser -keyalg RSA -keysize 2048 -validity 10000 -storepass yourreleasepassword -keypass yourreleasepassword -dname "CN=Android Export,O=Android,C=US"
+
+    - name: Export
+      run: |
+        mkdir -p export
+        EXT=${{ fromJSON(env.EXTS)[env.PLATFORM] || '.zip' }}
+        echo "EXT=${EXT}" >> $GITHUB_ENV
+        echo "version: $VERSION"
+        if [ $VERSION == "3.6.stable" ]; then
+          godot --no-window --export "$PLATFORM" export/$FILENAME$EXT
+        fi
+        godot --headless --export-release "$PLATFORM" export/$FILENAME$EXT
+
+    - name: Upload result to artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.FILENAME }}${{ env.EXT }}
+        path: export/

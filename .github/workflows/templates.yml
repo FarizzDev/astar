@@ -1,0 +1,41 @@
+name: android export template
+
+on:
+  workflow_dispatch:
+    inputs:
+      templates_link:
+        required: true
+        default: "https://download.tuxfamily.org/godotengine/4.4/dev3/Godot_v4.4-dev3_export_templates.tpz"
+        description: "Enter Export Templates link:"
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download Export Templates
+        run: curl -L ${{ inputs.templates_link }} -o godot-templates.tpz
+        
+      - name: extract & compress
+        run: |
+          unzip godot-templates.tpz -d ~/godot-templates
+          zip ~/debug.zip /home/runner/godot-templates/templates/android_debug.apk
+          zip ~/release.zip /home/runner/godot-templates/templates/android_release.apk
+        
+      - name: debug
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug
+          path: /home/runner/debug.zip
+
+      - name: release
+        uses: actions/upload-artifact@v4
+        with:
+          name: release
+          path: /home/runner/release.zip 
+          
+      - name: source
+        uses: actions/upload-artifact@v4
+        with:
+          name: source
+          path: /home/runner/godot-templates/templates/android_source.zip
