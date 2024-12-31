@@ -105,9 +105,9 @@ jobs:
     - name: Export
       run: |
         cd ./test
-        echo "GODOT_ANDROID_KEYSTORE_RELEASE_PATH=$(readlink -f release.keystore)" >> $GITHUB_ENV
-        echo "GODOT_ANDROID_KEYSTORE_RELEASE_USER=yourreleaseuser" >> $GITHUB_ENV
-        echo "GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=yourreleasepassword" >> $GITHUB_ENV
+        export GODOT_ANDROID_KEYSTORE_RELEASE_PATH=$(readlink -f release.keystore)
+        export GODOT_ANDROID_KEYSTORE_RELEASE_USER=yourreleaseuser
+        export GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=yourreleasepassword
         echo ---
         ls -a
         echo ---
