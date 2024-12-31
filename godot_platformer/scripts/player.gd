@@ -21,6 +21,7 @@ var jump_buffered = false
 var standing_cshape = preload("res://resources/knight_standing_cshape.tres")
 var crouching_cshape = preload("res://resources/knight_crouching_cshape.tres")
 
+@warning_ignore("unused_parameter")
 func _physics_process(delta):
 	if !is_on_floor() && (can_coyote_jump == false):
 		velocity.y += gravity

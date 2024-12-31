@@ -1,0 +1,8 @@
+res://resources/default_tileset.tres::5d1daede4391bc4c5082c7d6a53ea6d0::1721049278::res://.godot/exported/133200997/export-69d69a9972b230d6f0ca493e3b250cd8-default_tileset.res
+res://resources/knight_crouching_cshape.tres::0a668ce71a86a027ab8ab8eff3339521::1721049278::res://.godot/exported/133200997/export-d5ab6ba3836e6a97208669fc7cdb8f40-knight_crouching_cshape.res
+res://resources/knight_standing_cshape.tres::88fe0d9ce0f6364b369521c1dd5ed322::1721049278::res://.godot/exported/133200997/export-00b5d1844f36e36dc47e049f67b28490-knight_standing_cshape.res
+res://scenes/box.tscn::ae37a30824bc75f4e0ecdeb1239a3677::1721049278::res://.godot/exported/133200997/export-06a1a1284033147b2f9035f533de0da1-box.scn
+res://scenes/gui.tscn::7e282e67f7f578753188d3891c231d42::1735629031::res://.godot/exported/133200997/export-c9df48fc02664b28cf59cb80516ff5bd-gui.scn
+res://scenes/player.tscn::ecca29bce7e83519b42cbf628953e070::1721049278::res://.godot/exported/133200997/export-234fb6894ec6226e856ab7f825500d3d-player.scn
+res://scenes/tile_map.tscn::bfccc6195707907e041673736248391c::1721049278::res://.godot/exported/133200997/export-ce269969b9a807b5cc5b406a10a1234a-tile_map.scn
+res://scenes/world.tscn::37e4c06226ae0139ce489aac86b67034::1721049278::res://.godot/exported/133200997/export-6b9c1b1fd6ae6f795188dfdc89e222b0-world.scn

@@ -1,5 +1,5 @@
 2a60927148abd1d33b818b535e306557
-::res://::1735629977
+::res://::1735630535
 export_presets.cfg::TextFile::-1::1735629973::0::1::::<><>::
 icon.svg::CompressedTexture2D::2934419588079749334::1721049278::1721049278::1::::<><>::
 README.md::TextFile::-1::1721049278::0::1::::<><>::
@@ -13,11 +13,11 @@ _Jump.png::CompressedTexture2D::5435414950024702996::1721049278::1721049278::1::
 _Run.png::CompressedTexture2D::2572018848354926806::1721049278::1721049278::1::::<><>::
 forest_platformer_tileset.png::CompressedTexture2D::1312487938642593153::1721049278::1721049278::1::::<><>::
 Trees.png::CompressedTexture2D::3725174492141165158::1721049278::1721049278::1::::<><>::
-::res://resources/::1735628626
+::res://resources/::1735630477
 default_tileset.tres::TileSet::3773492297083278160::1721049278::0::1::::<><>::uid://sx1qqgoqihkr::::res://assets/textures/forest_platformer_tileset.png
 knight_crouching_cshape.tres::RectangleShape2D::7432062518317572037::1721049278::0::1::::<><>::
 knight_standing_cshape.tres::RectangleShape2D::7249149960290693307::1721049278::0::1::::<><>::
-::res://scenes/::1735630071
+::res://scenes/::1735630498
 box.tscn::PackedScene::3813743996245828718::1721049278::0::1::::<><>::
 gui.tscn::PackedScene::9083853664810150499::1735629031::0::1::::<><>::uid://bh2ppx7gm76n7::::res://icon.svg
 player.tscn::PackedScene::4642945002786798340::1721049278::0::1::::<><>::res://scripts/player.gd<>uid://myp5xh7cj80v::::res://assets/textures/_Idle.png<>uid://bcv51lrcmoat7::::res://assets/textures/_Run.png<>uid://dbjso8qr63aj0::::res://resources/knight_standing_cshape.tres<>uid://cjo7qwtacsae3::::res://assets/textures/_Jump.png<>uid://bgi8volrnwu7c::::res://assets/textures/_Fall.png<>uid://bfoa8ym1sf073::::res://assets/textures/_Crouch.png<>uid://brn4xn67o6g11::::res://assets/textures/_CrouchWalk.png
