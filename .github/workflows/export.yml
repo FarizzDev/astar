@@ -71,11 +71,6 @@ jobs:
             # Create a Label node
             var label = Label.new()
             label.text = "Hello World!"
-            label.size_flags_horizontal = Control.SIZE_EXPAND_FILL  # Center horizontally
-            label.size_flags_vertical = Control.SIZE_EXPAND_FILL    # Center vertically
-            label.horizontal_alignment = Label.HORIZONTAL_ALIGNMENT_CENTER
-            label.vertical_alignment = Label.VERTICAL_ALIGNMENT_CENTER
-            control.add_child(label)
             
             # Save the scene
             var scene = PackedScene.new()
