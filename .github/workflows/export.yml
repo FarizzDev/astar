@@ -52,43 +52,8 @@ jobs:
       run: |
         mkdir -p godot_platformer
         cd ./godot_platformer
-        cat <<EOF > project.godot
-        [application]
-        config/name="BlankProject"
-        config/description="A Hello World project"
-        
-        [rendering]
-        renderer/quality/intended_usage/framebuffer_allocation=2
-        EOF
-        cat <<EOF > generate_scene.gd
-        extends Node
-
-        func _ready():
-            # Create a new scene
-            var control = Control.new()
-            control.name = "Main"
-            
-            # Create a Label node
-            var label = Label.new()
-            label.text = "Hello World!"
-            
-            # Save the scene
-            var scene = PackedScene.new()
-            if scene.pack(control):
-                ResourceSaver.save("res://Scenes/Main.tscn", scene)
-            else:
-                print("Failed to pack the scene")
-            
-            # Set the main scene
-            ProjectSettings.set_setting("application/run/main_scene", "res://Scenes/Main.tscn")
-            ProjectSettings.save()
-            
-            # Print success
-            print("Main scene created successfully!")
-        EOF
-        echo "GODOT_URL=https://github.com/godotengine/godot-builds/releases/download/4.4-dev7/Godot_v4.4-dev7_linux.x86_64.zip" >> $GITHUB_ENV
-        echo "TEMPLATES_URL=https://github.com/godotengine/godot-builds/releases/download/4.4-dev7/Godot_v4.4-dev7_export_templates.tpz" >> $GITHUB_ENV
-        echo "VERSION=4.4.dev7" >> $GITHUB_ENV
+        echo "GODOT_URL=https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip" >> $GITHUB_ENV
+        echo "TEMPLATES_URL=https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz" >> $GITHUB_ENV
 
     - name: Download Godot Export Templates
       run: |
@@ -110,7 +75,6 @@ jobs:
         unzip godot.zip
         sudo mv Godot_* /usr/local/bin/godot
         chmod +x /usr/local/bin/godot
-        godot --headless -s generate_scene.gd
 
     - name: Set up JDK 17 (Only for Android)
       uses: actions/setup-java@v3
