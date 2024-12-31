@@ -50,8 +50,8 @@ jobs:
       
     - name: Preaparing
       run: |
-        mkdir -p blank-project
-        cd ./blank-project
+        mkdir -p godot_platformer
+        cd ./godot_platformer
         cat <<EOF > project.godot
         [application]
         config/name="BlankProject"
@@ -92,12 +92,12 @@ jobs:
 
     - name: Download Godot Export Templates
       run: |
-        cd ./blank-project
+        cd ./godot_platformer
         curl -L $TEMPLATES_URL -o godot-templates.tpz
 
     - name: Extract Godot Export Templates
       run: |
-        cd ./blank-project
+        cd ./godot_platformer
         mkdir -p ~/.local/share/godot/export_templates/$VERSION
         unzip godot-templates.tpz -d ~/godot-templates
         mv ~/godot-templates/templates/* ~/.local/share/godot/export_templates/$VERSION/
@@ -105,7 +105,7 @@ jobs:
 
     - name: Download and Install Godot
       run: |
-        cd ./blank-project
+        cd ./godot_platformer
         wget $GODOT_URL -O godot.zip
         unzip godot.zip
         sudo mv Godot_* /usr/local/bin/godot
@@ -125,7 +125,7 @@ jobs:
     - name: Install additional package
       if: ${{ env.PLATFORM == 'Android' }}
       run: |
-        cd ./blank-project
+        cd ./godot_platformer
         sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "build-tools;34.0.0" "platforms;android-34" "cmdline-tools;latest" "cmake;3.10.2.4988404" "ndk;23.2.8568313"
       env:
         ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
@@ -133,13 +133,13 @@ jobs:
     - name: Generate Keystore (Only for Android)
       if: ${{ env.PLATFORM == 'Android' }}
       run: |
-        cd ./blank-project
+        cd ./godot_platformer
         keytool -genkey -v -keystore debug.keystore -alias ${{ env.USER }} -keyalg RSA -keysize 2048 -validity 10000 -storepass ${{ env.STOREPASS }} -keypass ${{ env.KEYPASS }} -dname "CN=Android Export,O=Android,C=US"
         keytool -genkey -v -keystore release.keystore -alias yourreleaseuser -keyalg RSA -keysize 2048 -validity 10000 -storepass yourreleasepassword -keypass yourreleasepassword -dname "CN=Android Export,O=Android,C=US"
 
     - name: Export
       run: |
-        cd ./blank-project
+        cd ./godot_platformer
         echo ---
         ls -a
         echo ---
@@ -156,4 +156,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ env.FILENAME }}${{ env.EXT }}
-        path: blank-project/export/
+        path: godot_platformer/export/

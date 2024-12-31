@@ -1,0 +1,4 @@
+res://scenes/world.tscn
+res://resources/default_tileset.tres
+res://scenes/tile_map.tscn
+res://scenes/gui.tscn
