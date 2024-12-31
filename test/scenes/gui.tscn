@@ -1,0 +1,49 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5xyby5ywnigw"]
+
+[ext_resource type="Texture2D" uid="uid://pkdvktqcxe0v" path="res://icon.png" id="1_4k1di"]
+
+[node name="GUI" type="CanvasLayer"]
+
+[node name="Movement" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="left" type="TouchScreenButton" parent="Movement"]
+position = Vector2(80, -32)
+rotation = -1.5708
+scale = Vector2(2, 2)
+texture_normal = ExtResource("1_4k1di")
+action = "ui_left"
+visibility_mode = 1
+
+[node name="Right" type="TouchScreenButton" parent="Movement"]
+position = Vector2(416, -160)
+rotation = 1.5708
+scale = Vector2(2, 2)
+texture_normal = ExtResource("1_4k1di")
+action = "ui_right"
+visibility_mode = 1
+
+[node name="Action" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Jump" type="TouchScreenButton" parent="Action"]
+position = Vector2(-180, -176)
+scale = Vector2(2, 2)
+texture_normal = ExtResource("1_4k1di")
+action = "jump"
+visibility_mode = 1

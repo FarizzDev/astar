@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bo3no7bm4rb0n"]
+
+[ext_resource type="PackedScene" uid="uid://b5xyby5ywnigw" path="res://scenes/gui.tscn" id="1_4w5wp"]
+[ext_resource type="PackedScene" uid="uid://doc2fjy8tv55m" path="res://scenes/cat.tscn" id="2_sphdk"]
+[ext_resource type="Texture2D" uid="uid://my3jd38hyc7k" path="res://resources/img/missile-placeholder.png" id="3_th64k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_knpoa"]
+size = Vector2(46, 9.25)
+
+[node name="Main" type="Node2D"]
+
+[node name="GUI" parent="." instance=ExtResource("1_4w5wp")]
+
+[node name="Cat" parent="." instance=ExtResource("2_sphdk")]
+position = Vector2(520, 426)
+scale = Vector2(0.3, 0.3)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(734, 645)
+scale = Vector2(30, 4)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+texture = ExtResource("3_th64k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 0.625)
+shape = SubResource("RectangleShape2D_knpoa")
