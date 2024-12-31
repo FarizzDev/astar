@@ -50,19 +50,54 @@ jobs:
       
     - name: Preaparing
       run: |
-        cd ./test-project
+        mkdir -p blank-project
+        cd ./blank-project
+        cat <<EOF > blank-project/project.godot
+        [application]
+        config/name="BlankProject"
+        config/description="A Hello World project"
+        
+        [rendering]
+        renderer/quality/intended_usage/framebuffer_allocation=2
+        EOF
+        cat <<EOF > blank-project/generate_scene.gd
+        func _ready():
+            # Create a new scene
+            var control = Control.new()
+            control.set_name("Main")
+        
+            # Create a Label node
+            var label = Label.new()
+            label.text = "Hello World!"
+            label.rect_min_size = Vector2(200, 50)  # Adjust label size
+            label.align = Label.ALIGN_CENTER
+            control.add_child(label)
+        
+            # Save the scene
+            var scene = PackedScene.new()
+            scene.pack(control)
+            ResourceSaver.save("res://Scenes/Main.tscn", scene)
+        
+            # Set the main scene
+            var config = ProjectSettings
+            config.set_setting("application/run/main_scene", "res://Scenes/Main.tscn")
+            config.save()
+        
+            # Print success
+            print("Main scene created successfully!")
+        EOF
         echo "GODOT_URL=https://github.com/godotengine/godot-builds/releases/download/4.4-dev7/Godot_v4.4-dev7_linux.x86_64.zip" >> $GITHUB_ENV
         echo "TEMPLATES_URL=https://github.com/godotengine/godot-builds/releases/download/4.4-dev7/Godot_v4.4-dev7_export_templates.tpz" >> $GITHUB_ENV
         echo "VERSION=4.4.dev7" >> $GITHUB_ENV
 
     - name: Download Godot Export Templates
       run: |
-        cd ./test-project
+        cd ./blank-project
         curl -L $TEMPLATES_URL -o godot-templates.tpz
 
     - name: Extract Godot Export Templates
       run: |
-        cd ./test-project
+        cd ./blank-project
         mkdir -p ~/.local/share/godot/export_templates/$VERSION
         unzip godot-templates.tpz -d ~/godot-templates
         mv ~/godot-templates/templates/* ~/.local/share/godot/export_templates/$VERSION/
@@ -70,11 +105,12 @@ jobs:
 
     - name: Download and Install Godot
       run: |
-        cd ./test-project
+        cd ./blank-project
         wget $GODOT_URL -O godot.zip
         unzip godot.zip
         sudo mv Godot_* /usr/local/bin/godot
         chmod +x /usr/local/bin/godot
+        godot --headless -s generate_scene.gd
 
     - name: Set up JDK 17 (Only for Android)
       uses: actions/setup-java@v3
@@ -89,7 +125,7 @@ jobs:
     - name: Install additional package
       if: ${{ env.PLATFORM == 'Android' }}
       run: |
-        cd ./test-project
+        cd ./blank-project
         sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "build-tools;34.0.0" "platforms;android-34" "cmdline-tools;latest" "cmake;3.10.2.4988404" "ndk;23.2.8568313"
       env:
         ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
@@ -97,13 +133,13 @@ jobs:
     - name: Generate Keystore (Only for Android)
       if: ${{ env.PLATFORM == 'Android' }}
       run: |
-        cd ./test-project
+        cd ./blank-project
         keytool -genkey -v -keystore debug.keystore -alias ${{ env.USER }} -keyalg RSA -keysize 2048 -validity 10000 -storepass ${{ env.STOREPASS }} -keypass ${{ env.KEYPASS }} -dname "CN=Android Export,O=Android,C=US"
         keytool -genkey -v -keystore release.keystore -alias yourreleaseuser -keyalg RSA -keysize 2048 -validity 10000 -storepass yourreleasepassword -keypass yourreleasepassword -dname "CN=Android Export,O=Android,C=US"
 
     - name: Export
       run: |
-        cd ./test-project
+        cd ./blank-project
         echo ---
         ls -a
         echo ---
@@ -120,4 +156,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ env.FILENAME }}${{ env.EXT }}
-        path: test-project/export/
+        path: blank-project/export/
