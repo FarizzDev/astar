@@ -29,17 +29,13 @@ on:
       storepass:
         description: "Enter keystore (min 6 char, no spaces, must include letters, and numbers. Only for Android):"
         pattern: '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$'
-      keypass:
-        description: "Enter keypass (min 6 char, no spaces, must include letters, and numbers. Only for Android):"
-        pattern: '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$'
         
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
       PLATFORM: ${{ inputs.platform }}
-      STOREPASS: ${{ inputs.storepass }}
-      KEYPASS: ${{ inputs.keypass }}
+      KEYSTOREPASS: ${{ inputs.storepass }}
       USER: ${{ inputs.user }}
       FILENAME: ${{ inputs.filename }}
       EXTS: '{"Android": ".apk", "Windows Desktop": ".exe", "macOS": ".dmg", "Linux": ".x86_64", "UWP": ".appx"}'
@@ -99,8 +95,8 @@ jobs:
       if: ${{ env.PLATFORM == 'Android' }}
       run: |
         cd ./test
-        keytool -genkey -v -keystore debug.keystore -alias ${{ env.USER }} -keyalg RSA -keysize 2048 -validity 10000 -storepass ${{ env.STOREPASS }} -keypass ${{ env.KEYPASS }} -dname "CN=Android Export,O=Android,C=US"
-        keytool -genkey -v -keystore release.keystore -alias yourreleaseuser -keyalg RSA -keysize 2048 -validity 10000 -storepass yourreleasepassword -keypass yourreleasepassword -dname "CN=Android Export,O=Android,C=US"
+        keytool -genkey -v -keystore debug.keystore -alias ${{ env.USER }} -keyalg RSA -keysize 2048 -validity 10000 -storepass ${{ env.KEYSTOREPASS }} -keypass ${{ env.KEYSTOREPASS }} -dname "CN=Android Export,O=Android,C=US"
+        keytool -genkey -v -keystore release.keystore -alias ${{ env.USER }} -keyalg RSA -keysize 2048 -validity 10000 -storepass ${{ env.KEYSTOREPASS }} -keypass ${{ env.KEYSTOREPASS }} -dname "CN=Android Export,O=Android,C=US"
 
     - name: Export
       run: |
