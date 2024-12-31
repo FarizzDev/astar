@@ -52,7 +52,7 @@ jobs:
       run: |
         mkdir -p blank-project
         cd ./blank-project
-        cat <<EOF > blank-project/project.godot
+        cat <<EOF > project.godot
         [application]
         config/name="BlankProject"
         config/description="A Hello World project"
@@ -60,7 +60,7 @@ jobs:
         [rendering]
         renderer/quality/intended_usage/framebuffer_allocation=2
         EOF
-        cat <<EOF > blank-project/generate_scene.gd
+        cat <<EOF > generate_scene.gd
         func _ready():
             # Create a new scene
             var control = Control.new()
