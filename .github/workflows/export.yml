@@ -48,9 +48,9 @@ jobs:
       run: |
         mkdir -p test
         cd ./test
-        echo "GODOT_URL=https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip" >> $GITHUB_ENV
-        echo "TEMPLATES_URL=https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz" >> $GITHUB_ENV
-        echo "VERSION=4.3.stable" >> $GITHUB_ENV
+        echo "GODOT_URL=https://github.com/godotengine/godot-builds/releases/download/4.4-dev7/Godot_v4.4-dev7_linux.x86_64.zip" >> $GITHUB_ENV
+        echo "TEMPLATES_URL=https://github.com/godotengine/godot-builds/releases/download/4.4-dev7/Godot_v4.4-dev7_export_templates.tpz" >> $GITHUB_ENV
+        echo "VERSION=4.4.dev7" >> $GITHUB_ENV
 
     - name: Download Godot Export Templates
       run: |

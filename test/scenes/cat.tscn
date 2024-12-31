@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://doc2fjy8tv55m"]
 
 [ext_resource type="Texture2D" uid="uid://b6au28glxf586" path="res://resources/img/cat0.png" id="1_jq27c"]
-[ext_resource type="Script" path="res://scripts/cat.gd" id="1_qpbyn"]
+[ext_resource type="Script" uid="uid://boc7cwcg1aqh7" path="res://scripts/cat.gd" id="1_qpbyn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_suc0h"]
 size = Vector2(296, 368)
@@ -39,8 +39,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_iquxq"]
 _data = {
-"Idle": SubResource("Animation_kf7ty"),
-"RESET": SubResource("Animation_bofaw")
+&"Idle": SubResource("Animation_kf7ty"),
+&"RESET": SubResource("Animation_bofaw")
 }
 
 [node name="Cat" type="CharacterBody2D"]
@@ -56,6 +56,6 @@ shape = SubResource("RectangleShape2D_suc0h")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_iquxq")
+&"": SubResource("AnimationLibrary_iquxq")
 }
 autoplay = "Idle"
