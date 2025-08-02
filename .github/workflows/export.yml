@@ -71,10 +71,10 @@ jobs:
           sudo mv Godot_* /usr/local/bin/godot
           chmod +x /usr/local/bin/godot
 
-      - name: Set up JDK 11 (Only for Android)
+      - name: Set up JDK 17 (Only for Android)
         uses: actions/setup-java@v4
         with:
-          java-version: "11"
+          java-version: "17"
           distribution: "temurin"
 
       - name: Set up Android SDK (Only for Android)
@@ -95,6 +95,12 @@ jobs:
           cd ./test
           keytool -genkey -v -keystore debug.keystore -alias ${{ env.USER }} -keyalg RSA -keysize 2048 -validity 10000 -storepass ${{ env.KEYSTOREPASS }} -keypass ${{ env.KEYSTOREPASS }} -dname "CN=Android Export,O=Android,C=US"
           keytool -genkey -v -keystore release.keystore -alias ${{ env.USER }} -keyalg RSA -keysize 2048 -validity 10000 -storepass ${{ env.KEYSTOREPASS }} -keypass ${{ env.KEYSTOREPASS }} -dname "CN=Android Export,O=Android,C=US"
+
+      - name: Set up JDK 11 (Only for Android)
+        uses: actions/setup-java@v4
+        with:
+          java-version: "11"
+          distribution: "temurin"
 
       - name: Export
         run: |
@@ -119,4 +125,3 @@ jobs:
         with:
           name: ${{ env.FILENAME }}${{ env.EXT }}
           path: test/export/
-
