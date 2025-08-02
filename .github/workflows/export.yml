@@ -23,13 +23,11 @@ on:
       filename:
         required: true
         description: "Enter file name:"
-        pattern: "^[a-zA-Z0-9_]+$"
       user:
         description: "Enter user (Only for Android):"
       storepass:
         description: "Enter keystore (min 6 char, no spaces, must include letters, and numbers. Only for Android):"
-        pattern: '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$'
-        
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,85 +37,86 @@ jobs:
       USER: ${{ inputs.user }}
       FILENAME: ${{ inputs.filename }}
       EXTS: '{"Android": ".apk", "Windows Desktop": ".exe", "macOS": ".dmg", "Linux": ".x86_64", "UWP": ".appx"}'
- 
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      
-    - name: Preaparing
-      run: |
-        mkdir -p test
-        cd ./test
-        echo "GODOT_URL=https://github.com/godotengine/godot-builds/releases/download/4.4-dev7/Godot_v4.4-dev7_linux.x86_64.zip" >> $GITHUB_ENV
-        echo "TEMPLATES_URL=https://github.com/godotengine/godot-builds/releases/download/4.4-dev7/Godot_v4.4-dev7_export_templates.tpz" >> $GITHUB_ENV
-        echo "VERSION=4.4.dev7" >> $GITHUB_ENV
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Download Godot Export Templates
-      run: |
-        cd ./test
-        curl -L $TEMPLATES_URL -o godot-templates.tpz
+      - name: Preaparing
+        run: |
+          mkdir -p test
+          cd ./test
+          echo "GODOT_URL=https://github.com/godotengine/godot-builds/releases/download/4.4-dev7/Godot_v4.4-dev7_linux.x86_64.zip" >> $GITHUB_ENV
+          echo "TEMPLATES_URL=https://github.com/godotengine/godot-builds/releases/download/4.4-dev7/Godot_v4.4-dev7_export_templates.tpz" >> $GITHUB_ENV
+          echo "VERSION=4.4.dev7" >> $GITHUB_ENV
 
-    - name: Extract Godot Export Templates
-      run: |
-        cd ./test
-        mkdir -p ~/.local/share/godot/export_templates/$VERSION
-        unzip godot-templates.tpz -d ~/godot-templates
-        mv ~/godot-templates/templates/* ~/.local/share/godot/export_templates/$VERSION/
-        rm -rf ~/godot-templates
+      - name: Download Godot Export Templates
+        run: |
+          cd ./test
+          curl -L $TEMPLATES_URL -o godot-templates.tpz
 
-    - name: Download and Install Godot
-      run: |
-        cd ./test
-        wget $GODOT_URL -O godot.zip
-        unzip godot.zip
-        sudo mv Godot_* /usr/local/bin/godot
-        chmod +x /usr/local/bin/godot
+      - name: Extract Godot Export Templates
+        run: |
+          cd ./test
+          mkdir -p ~/.local/share/godot/export_templates/$VERSION
+          unzip godot-templates.tpz -d ~/godot-templates
+          mv ~/godot-templates/templates/* ~/.local/share/godot/export_templates/$VERSION/
+          rm -rf ~/godot-templates
 
-    - name: Set up JDK 17 (Only for Android)
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
+      - name: Download and Install Godot
+        run: |
+          cd ./test
+          wget $GODOT_URL -O godot.zip
+          unzip godot.zip
+          sudo mv Godot_* /usr/local/bin/godot
+          chmod +x /usr/local/bin/godot
 
-    - name: Set up Android SDK (Only for Android)
-      if: ${{ env.PLATFORM == 'Android' }}
-      uses: android-actions/setup-android@v3
+      - name: Set up JDK 11 (Only for Android)
+        uses: actions/setup-java@v4
+        with:
+          java-version: "11"
+          distribution: "temurin"
 
-    - name: Install additional package
-      if: ${{ env.PLATFORM == 'Android' }}
-      run: |
-        cd ./test
-        sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "build-tools;34.0.0" "platforms;android-34" "cmdline-tools;latest" "cmake;3.10.2.4988404" "ndk;23.2.8568313"
-      env:
-        ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
+      - name: Set up Android SDK (Only for Android)
+        if: ${{ env.PLATFORM == 'Android' }}
+        uses: android-actions/setup-android@v3
 
-    - name: Generate Keystore (Only for Android)
-      if: ${{ env.PLATFORM == 'Android' }}
-      run: |
-        cd ./test
-        keytool -genkey -v -keystore debug.keystore -alias ${{ env.USER }} -keyalg RSA -keysize 2048 -validity 10000 -storepass ${{ env.KEYSTOREPASS }} -keypass ${{ env.KEYSTOREPASS }} -dname "CN=Android Export,O=Android,C=US"
-        keytool -genkey -v -keystore release.keystore -alias ${{ env.USER }} -keyalg RSA -keysize 2048 -validity 10000 -storepass ${{ env.KEYSTOREPASS }} -keypass ${{ env.KEYSTOREPASS }} -dname "CN=Android Export,O=Android,C=US"
+      - name: Install additional package
+        if: ${{ env.PLATFORM == 'Android' }}
+        run: |
+          cd ./test
+          sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platform-tools" "build-tools;34.0.0" "platforms;android-34" "cmdline-tools;latest" "cmake;3.10.2.4988404" "ndk;23.2.8568313"
+        env:
+          ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
 
-    - name: Export
-      run: |
-        cd ./test
-        export GODOT_ANDROID_KEYSTORE_RELEASE_PATH=$(readlink -f release.keystore)
-        export GODOT_ANDROID_KEYSTORE_RELEASE_USER=yourreleaseuser
-        export GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=yourreleasepassword
-        echo ---
-        ls -a
-        echo ---
-        mkdir -p export
-        EXT=${{ fromJSON(env.EXTS)[env.PLATFORM] || '.zip' }}
-        echo "EXT=${EXT}" >> $GITHUB_ENV
-        echo "version: $VERSION"
-        if [ $VERSION == "3.6.stable" ]; then
-          godot --no-window --export "$PLATFORM" export/$FILENAME$EXT
-        fi
-        godot --headless --export-release  "$PLATFORM" export/$FILENAME$EXT --xr_mode_regular --use_immersive
+      - name: Generate Keystore (Only for Android)
+        if: ${{ env.PLATFORM == 'Android' }}
+        run: |
+          cd ./test
+          keytool -genkey -v -keystore debug.keystore -alias ${{ env.USER }} -keyalg RSA -keysize 2048 -validity 10000 -storepass ${{ env.KEYSTOREPASS }} -keypass ${{ env.KEYSTOREPASS }} -dname "CN=Android Export,O=Android,C=US"
+          keytool -genkey -v -keystore release.keystore -alias ${{ env.USER }} -keyalg RSA -keysize 2048 -validity 10000 -storepass ${{ env.KEYSTOREPASS }} -keypass ${{ env.KEYSTOREPASS }} -dname "CN=Android Export,O=Android,C=US"
 
-    - name: Upload result to artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.FILENAME }}${{ env.EXT }}
-        path: test/export/
+      - name: Export
+        run: |
+          cd ./test
+          export GODOT_ANDROID_KEYSTORE_RELEASE_PATH=$(readlink -f release.keystore)
+          export GODOT_ANDROID_KEYSTORE_RELEASE_USER=yourreleaseuser
+          export GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=yourreleasepassword
+          echo ---
+          ls -a
+          echo ---
+          mkdir -p export
+          EXT=${{ fromJSON(env.EXTS)[env.PLATFORM] || '.zip' }}
+          echo "EXT=${EXT}" >> $GITHUB_ENV
+          echo "version: $VERSION"
+          if [ $VERSION == "3.6.stable" ]; then
+            godot --no-window --export "$PLATFORM" export/$FILENAME$EXT
+          fi
+          godot --headless --export-release  "$PLATFORM" export/$FILENAME$EXT --xr_mode_regular --use_immersive
+
+      - name: Upload result to artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.FILENAME }}${{ env.EXT }}
+          path: test/export/
+
